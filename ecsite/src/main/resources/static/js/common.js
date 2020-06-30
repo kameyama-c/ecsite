@@ -1,6 +1,4 @@
-/**
- * Javascriptの関数追加により、index.htmlが肥大化してきたので、 JSファイルを別で作成し、２つのメソッドをそちらに移動
- */
+
 	let login=(event)=>{
 		event.preventDefault();
 		let jsonString={
@@ -27,7 +25,7 @@
 	);
 	};
 	
-	// 「カートに入れる」機能を追加
+	// カート機能
 	let addCart=(event)=>{
 		let tdList=$(event.target).parent().parent().find('td');
 		
@@ -70,7 +68,6 @@
 		$('.removeBtn').on('click',removeCart);
 	};
 	
-	//実際に処理する関数はcommon.jsに追加
 	let buy=(event)=>{
 		$.ajax({
 			type:'POST',
@@ -91,7 +88,7 @@
 		);
 	};
 	
-	//削除機能追加
+	// 削除機能
 	let removeCart=(event)=>{
 		const tdList=$(event.target).parent().parent().find('td');
 		let id=$(tdList[0]).text();
@@ -102,7 +99,6 @@
 	};
 	
 	
-	//showHistory関数を追加 
 	let showHistory=()=>{
 		$.ajax({
 			type:'POST',

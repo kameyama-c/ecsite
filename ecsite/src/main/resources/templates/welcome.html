@@ -6,14 +6,10 @@
 <!-- cssを読み込むためのlinkタグ追加 -->
 <link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 
-<!-- 管理者サイトの最後の機能として、商品マスタから商品を削除する機能を作成。 
-これまでのページ遷移による処理ではなく、
-ajax(JavaScriptに新しいページを貰ってきてもら)を使用した方式での処理 -->
-
 <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
 $(()=>{
-	//削除ボタンがクリックされたら
+	//削除ボタン
 	$('.deleteBtn').on('click',(event)=>{
 		event.preventDefault();
 		let tdList=$(event.target).parent().parent().find('td');
@@ -33,7 +29,6 @@ $(()=>{
 		})
 		.then((result)=>{
 			console.log(result);
-			// alert内で、文字列を囲んでいるのはバッククォーテーション
 			alert(`商品[ ${jsonString.goodsName} ] を削除しました。`);
 			$(tdList).parent().remove();
 		},()=>{
@@ -48,33 +43,37 @@ $(()=>{
 </head>
 <body>
 
-<header>
-	<h1>My EC Site</h1>
-</header>
+	<header>
+		<h1>My EC Site</h1>
+	</header>
 
-<table id="adminTable">
-	<thead>
-		<tr>
-			<th>ID</th><th>商品名</th><th>価格</th><th>削除</th>
-		</tr>
-	</thead>
-	
-		<!-- welcome.htmlに、商品リストを表示する部分をtbody内に追加 -->
-	<tbody>
-		<tr th:each="item: ${goods}">
-			<td th:text="${item.id}"/>
-			<td th:text="${item.goodsName}"/>
-			<td th:text="${item.price}"/>
-			<td><button type="submit" class="deleteBtn">削除</button></td>
-		</tr>
-	</tbody>
-</table>
+	<table id="adminTable">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>削除</th>
+			</tr>
+		</thead>
 
-<form name="goodsForm" id="adminPage" method="post" action="/ecsite/admin/goodsMst" th:action="@{/ecsite/admin/goodsMst}">
-	<button type="submit" th:if="${userName !=null}">新規追加</button>
-	<input type="hidden" name="userName" th:value="${userName}" />
-	<input type="hidden" name="password" th:value="${password}" />
-</form>
+		<!-- welcome.htmlに、商品リストを表示-->
+		<tbody>
+			<tr th:each="item: ${goods}">
+				<td th:text="${item.id}" />
+				<td th:text="${item.goodsName}" />
+				<td th:text="${item.price}" />
+				<td><button type="submit" class="deleteBtn">削除</button></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<form name="goodsForm" id="adminPage" method="post"
+		action="/ecsite/admin/goodsMst" th:action="@{/ecsite/admin/goodsMst}">
+		<button type="submit" th:if="${userName !=null}">新規追加</button>
+		<input type="hidden" name="userName" th:value="${userName}" /> <input
+			type="hidden" name="password" th:value="${password}" />
+	</form>
 
 </body>
 </html>

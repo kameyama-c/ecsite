@@ -5,35 +5,25 @@
 <title>ECサイト</title>
 <link href="/css/style.css" th:href="@{/css/style.css}" rel="stylesheet" />
 
-<!-- jqueryを使用するため、CDNから読み込み  -->
 <script src="http://code.jquery.com/jquery-3.4.1.min.js"></script>
-
-<!-- 履歴は、モーダルダイアログで表示するため jquery-uiというjqueryライブラリを使用 -->
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 <link rel="stylesheet"
 	href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
-<!-- common.jsを読み込む(※必ずjqueryより後の行で ) -->
 <script src="/js/common.js" th:src="@{/js/common.js}"></script>
 
 <script>
 
-	//商品一覧表内の「カートに入れる」機能を実装
-	//カート機能では、カートに入れた段階でDBにデータを登録しない為、フロントエンド（HTML/Javascript）で完結
-	//追加されたカート情報を、一覧形式でメモリ上に 保持しておくための変数を定義
+
+	//カート機能
 	let cartList=[];
-	//Ecmascript2015以降のアロー関数  （ラムダ式）で記述。  意味は$(function() {}); と同様で、  ページオンロード時のイベントリスナ
 	$(()=>{
-		/* submitイベントが発生した際に  loginを呼び出すよう、  リスナー登録 */
 		$('#loginForm').on('submit',login);
-		//「cartBtn」のclassを持つ要素で、clickイベントが発生した際に  addCartを呼び出すよう、リスナー登録
 		$('.cartBtn').on('click',addCart);
-		//購入処理のフロント側Javascriptを作成します。 イベントリスナを追加
 		$('#buyBtn').on('click',buy);
-		
-		//historyBtnのIDを持つ要素に clickイベントのリスナを登録
+
 		$('#historyBtn').on('click',showHistory);
-		//jquery-uiの モーダルダイアログを設定
 		$('#history').dialog({
 			autoOpen:false,
 			width:550,
@@ -77,8 +67,7 @@
 		</thead>
 		<tbody>
 
-			<!-- Thymeleafを使用したループ処理 -->
-			<!-- ControllerでModelオブジェクトに追加されたキーで取 得した値（今回はListコレクション）をループ -->
+			<!-- Thymeleafでループ処理 -->
 			<tr th:each="item:${goods}">
 				<td th:text="${item.id}" />
 				<td th:text="${item.goodsName}" />
@@ -102,8 +91,7 @@
 				</tr>
 			</thead>
 
-			<!-- ajaxを使い、RESTと呼ばれる手法で 動的にテーブル行を作成 -->
-			<!-- SPA（Single Page Application）の 作成に使われる手法 -->
+
 			<tbody>
 
 			</tbody>
@@ -112,7 +100,7 @@
 		<button id="historyBtn">履歴</button>
 	</fieldset>
 
-	<!-- 初期表示時に非表示と なるようスタイル定義 -->
+
 	<div id="history" title="購入履歴" style="display: none;">
 		<table id="historyTable">
 			<thead>
